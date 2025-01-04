@@ -7,9 +7,29 @@ const port = process.env.PORT ;
 app.set('views','./views');
 app.set('view engine', 'pug');
 sequelize
-app.get('/tours',(req:Request,res:Response)=>{
-    res.render('client/pages/tours/index')
+
+
+import Tour from "./models/tour.model";
+
+app.get('/tours',async(req:Request,res:Response)=>{
+
+    // SELECT * FROM tours WHERE deleted=false AND status="active";
+
+    const tours=await Tour.findAll({
+        where:{
+            deleted:false,
+            status:"active"
+        },
+        raw:true
+    })
+
+    res.render('client/pages/tours/index',{
+        pageTitle:"Tour page",
+        tours:tours
+    })
 })
+
+
 app.listen(port,()=>{
     console.log(`app listening on port ${port}`);
 })
