@@ -8,26 +8,28 @@ app.set('views','./views');
 app.set('view engine', 'pug');
 sequelize
 
-
+app.use(express.static("public"));
+import { routerClient } from "./router/index.route";
 import Tour from "./models/tour.model";
 
-app.get('/tours',async(req:Request,res:Response)=>{
+routerClient(app)
+// app.get('/tours',async(req:Request,res:Response)=>{
 
-    // SELECT * FROM tours WHERE deleted=false AND status="active";
+//     // SELECT * FROM tours WHERE deleted=false AND status="active";
 
-    const tours=await Tour.findAll({
-        where:{
-            deleted:false,
-            status:"active"
-        },
-        raw:true
-    })
+//     const tours=await Tour.findAll({
+//         where:{
+//             deleted:false,
+//             status:"active"
+//         },
+//         raw:true
+//     })
 
-    res.render('client/pages/tours/index',{
-        pageTitle:"Tour page",
-        tours:tours
-    })
-})
+//     res.render('client/pages/tours/index',{
+//         pageTitle:"Tour page",
+//         tours:tours
+//     })
+// })
 
 
 app.listen(port,()=>{
